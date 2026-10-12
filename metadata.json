@@ -1,0 +1,6 @@
+{
+  "name": "Karunya Semester Exam Master: 5-Subject Reverse Study Planner",
+  "description": "Reverse-order module study planner (Module 6 to 1) for Karunya semester exams commencing November 10th across Data Science, DBMS, Full Stack Web Dev, TOC, and Quantum Computing with Google Calendar & Tasks sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
