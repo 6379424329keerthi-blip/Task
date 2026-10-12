@@ -12,8 +12,8 @@ An interactive semester examination revision planner built for Karunya Universit
 
 ### 2. Clone and Install Dependencies
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/6379424329keerthi-blip/Task.git
+cd Task
 npm install
 ```
 
@@ -25,28 +25,36 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 📤 How to Push to Your GitHub Repository
+## 🌐 Run Online Anywhere (Free Live Web App)
 
-If you downloaded or exported this project from AI Studio, run these commands in your project root directory:
+You can run this app on your phone, laptop, or any computer without installing Node.js:
 
+### Option 1: GitHub Pages (Automated via GitHub Actions)
+1. Push this repository to GitHub (`git push origin main`).
+2. Go to your GitHub repository: [https://github.com/6379424329keerthi-blip/Task](https://github.com/6379424329keerthi-blip/Task)
+3. Click **Settings** ➔ **Pages** (in the left sidebar).
+4. Under **Build and deployment** ➔ **Source**, select **GitHub Actions**.
+5. The workflow in `.github/workflows/deploy.yml` will automatically build and publish the app!
+6. Your live web app URL will be:
+   ```
+   https://6379424329keerthi-blip.github.io/Task/
+   ```
+
+### Option 2: Vercel (1-Click Instant Deploy)
+1. Go to [https://vercel.com](https://vercel.com) and sign in with your GitHub account.
+2. Click **Add New...** ➔ **Project**.
+3. Import the `Task` repository.
+4. Click **Deploy**. Vercel will build and give you a fast HTTPS URL that works on all devices.
+
+---
+
+## 📤 Push Changes to GitHub
+
+To push the latest updates to your GitHub repo:
 ```bash
-# 1. Initialize Git (if not already a git repository)
-git init
-
-# 2. Add all project files
 git add .
-
-# 3. Create initial commit
-git commit -m "feat: Karunya 5-Subject Study Planner with Google Calendar and Tasks sync"
-
-# 4. Set default branch to main
-git branch -M main
-
-# 5. Connect to your GitHub repository
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-
-# 6. Push code to GitHub
-git push -u origin main
+git commit -m "feat: setup automated deployment and build configs"
+git push origin main
 ```
 
 ---
