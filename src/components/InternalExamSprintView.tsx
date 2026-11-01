@@ -26,6 +26,9 @@ import {
   Download,
   X,
   Search,
+  HardDrive,
+  RefreshCw,
+  FolderOpen,
 } from 'lucide-react';
 import { KARUNYA_QUESTION_BANK_URL } from '../data/curriculumData';
 
@@ -45,6 +48,8 @@ export interface TopicItem {
   pdfId: string;
   location: string;
   description?: string;
+  secondaryPdfId?: string;
+  secondaryLocation?: string;
 }
 
 export interface SprintSession {
@@ -68,6 +73,21 @@ export interface SprintDay {
   moduleCovered: string;
   targetHours: number;
   sessions: SprintSession[];
+}
+
+export interface AdvancedModuleSection {
+  moduleNumber: number;
+  title: string;
+  hours: number;
+  badgeColor: string;
+  syllabusDescription: string;
+  sessions: {
+    id: string;
+    timeSlot: string;
+    title: string;
+    keyGoal: string;
+    topicItems: TopicItem[];
+  }[];
 }
 
 export const ALL_COURSE_PDFS: PdfMaterial[] = [
@@ -268,8 +288,149 @@ export const ALL_COURSE_PDFS: PdfMaterial[] = [
     description: 'Step-by-step solved candidate key numericals and 3NF/BCNF test problems',
     isQuestionBank: true,
   },
+  {
+    id: 'pdf-m3-8',
+    name: 'Armstrong Axioms Comprehensive Notes & Examples (Docx)',
+    shortName: 'Armstrong Notes.pdf',
+    filename: 'armstrong axioms.docx.pdf',
+    size: '3.3 MB',
+    module: 3,
+    description: 'In-depth notes, examples and proofs for reflexivity, augmentation, and transitivity',
+  },
 
-  // Internal Question Banks
+  // Module 4: File Structure & Indexing
+  {
+    id: 'pdf-m4-1',
+    name: '25. File Organization, Records & Data Dictionary Storage',
+    shortName: '25. File Org.pdf',
+    filename: '25. File Organization- Organisation of Records- Data Dictionary Storage (1).pptx.pdf',
+    size: '857 KB',
+    module: 4,
+    description: 'Fixed & variable records, sequential, heap, hash, cluster file org & system catalog',
+  },
+  {
+    id: 'pdf-m4-2',
+    name: '26. Indexing (Primary, Dense, Sparse, Clustered, Secondary)',
+    shortName: '26. Indexing.pdf',
+    filename: '26. Indexing (1).pptx.pdf',
+    size: '1.4 MB',
+    module: 4,
+    description: 'Ordered indices, primary vs secondary indices, dense vs sparse and clustering',
+  },
+  {
+    id: 'pdf-m4-3',
+    name: '27. B-Tree & B+ Tree Index Files (Slide Deck 1)',
+    shortName: '27. B-Tree.pdf',
+    filename: '27. B- Tree (1).pptx.pdf',
+    size: '135 KB',
+    module: 4,
+    description: 'B+ tree multi-level structure, internal nodes, search, insertion & deletion',
+  },
+  {
+    id: 'pdf-m4-4',
+    name: 'B Tree & B+ Tree Construction, Splitting & Deletion (Detailed)',
+    shortName: 'B Tree Detailed.pdf',
+    filename: 'B tree-JB -M tree.pptx.pdf',
+    size: '351 KB',
+    module: 4,
+    description: 'Step-by-step numerical tree construction, node splitting, redistribute & borrow',
+  },
+  {
+    id: 'pdf-m4-5',
+    name: '29. Hashing - Static and Dynamic (Extendible Hashing)',
+    shortName: '29. Hashing.pdf',
+    filename: '29. Hashing - Static and Dynamic.pptx.pdf',
+    size: '330 KB',
+    module: 4,
+    description: 'Hash functions, bucket overflow, extendible hashing, local/global depth vs indexing',
+  },
+  {
+    id: 'pdf-m4-6',
+    name: 'File Organization & Storage Media (Silberschatz)',
+    shortName: 'File Org RAID.pdf',
+    filename: 'file organization.ppt.pdf',
+    size: '1.5 MB',
+    module: 4,
+    description: 'Physical storage media, RAID levels (0, 1, 5, 6, 10) & record organization',
+  },
+
+  // Module 5: Transaction & Concurrency Control
+  {
+    id: 'pdf-m5-1',
+    name: '31. Transaction Concepts & Transaction States',
+    shortName: '31. Transactions.pdf',
+    filename: '31. Transaction Transaction concepts- Transaction States.pptx.pdf',
+    size: '683 KB',
+    module: 5,
+    description: 'Transaction operations, simple model, active, committed, aborted states',
+  },
+  {
+    id: 'pdf-m5-2',
+    name: '32. ACID Properties & Implementation of Atomicity and Durability',
+    shortName: '32. ACID Props.pdf',
+    filename: '32. ACID Properties- Implementation of Atomicity and Durability.pptx.pdf',
+    size: '660 KB',
+    module: 5,
+    description: 'ACID properties, shadow paging, write-ahead logging (WAL) & recovery',
+  },
+  {
+    id: 'pdf-m5-3',
+    name: '33. Concurrent Executions & Concurrency Control',
+    shortName: '33. Concurrency.pdf',
+    filename: '33. Concurrent executions- Transaction Processing Concurrency control.pptx.pdf',
+    size: '580 KB',
+    module: 5,
+    description: 'Interleaved execution anomalies: dirty read, lost update, unrepeatable read',
+  },
+  {
+    id: 'pdf-m5-4',
+    name: '34. Serialization & Serializability of Scheduling',
+    shortName: '34. Serializability.pdf',
+    filename: '34. Serialization- Serializability of scheduling.pptx.pdf',
+    size: '1.5 MB',
+    module: 5,
+    description: 'Conflict serializability, precedence graph cycle testing, view serializability & recovery',
+  },
+  {
+    id: 'pdf-m5-5',
+    name: '35. Concurrency Control - ACID Property Overview',
+    shortName: '35. Concurrency ACID.pdf',
+    filename: '35. Concurrency control- ACID Property.pptx.pdf',
+    size: '319 KB',
+    module: 5,
+    description: 'Concurrency control requirements for maintaining ACID consistency',
+  },
+  {
+    id: 'pdf-m5-6',
+    name: '36. Locking, Timestamp-based Schedulers & Validation',
+    shortName: '36. 2PL Timestamp.pdf',
+    filename: '36. Locking- Timestamp-based schedulers.pptx.pdf',
+    size: '171 KB',
+    module: 5,
+    description: 'Two-Phase Locking (2PL), Timestamp Ordering rules, Thomas write rule & validation',
+  },
+  {
+    id: 'pdf-m5-7',
+    name: '37. Multi-Version Concurrency Control (MVCC)',
+    shortName: '37. MVCC.pdf',
+    filename: '37. Multi Version Concurrency Control.ppt.pdf',
+    size: '139 KB',
+    module: 5,
+    description: 'Multi-version timestamp ordering, snapshot isolation & timestamp assignment',
+  },
+
+  // Module 6: NOSQL Database
+  {
+    id: 'pdf-m6-1',
+    name: 'Module-6 NoSQL Databases, CAP Theorem, Document, Key-Value, Column & Graph',
+    shortName: 'Module 6 NoSQL.pdf',
+    filename: 'Module-6.pptx.pdf',
+    size: '1.9 MB',
+    module: 6,
+    description: 'CAP Theorem, MongoDB document store, Key-Value, Cassandra column-family & Neo4j graph',
+  },
+
+  // Question Banks
   {
     id: 'pdf-ia2',
     name: 'IA 2 Official Question Bank (Karunya)',
@@ -280,14 +441,352 @@ export const ALL_COURSE_PDFS: PdfMaterial[] = [
     description: 'Official Karunya internal exam question bank with Part A, Part B and Part C questions',
     isQuestionBank: true,
   },
+];
+
+export const ADVANCED_MODULES_4_5_6: AdvancedModuleSection[] = [
   {
-    id: 'pdf-file-org',
-    name: 'File Organization Reference',
-    shortName: 'File Organization.pdf',
-    filename: 'file organization.ppt.pdf',
-    size: '1.5 MB',
-    module: 4,
-    description: 'Storage structures and record organization concepts',
+    moduleNumber: 4,
+    title: 'File Structure and Indexing',
+    hours: 8,
+    badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+    syllabusDescription:
+      'Storage and file structure - RAID - File organization - Organization of records in files - Data Dictionary Storage. Indexing and Hashing - Basic Concept - Ordered Indices - B+ Tree Index Files - B - Tree - Index Files - Multiple - Key Access - Hashing: Static Hashing - Dynamic Hashing - Comparison of Ordered Indexing and Hashing.',
+    sessions: [
+      {
+        id: 'adv-m4-s1',
+        timeSlot: 'Core Session 1 (2 Hours)',
+        title: 'Storage, RAID & File Organization',
+        keyGoal: 'Understand physical storage, RAID levels 0-10, and record layouts',
+        topicItems: [
+          {
+            title: 'Storage and file structure - RAID',
+            pdfId: 'pdf-m4-6',
+            location: 'Slide 1–8',
+            description: 'Physical storage media, disk blocks, RAID levels 0, 1, 5, 6, 10 redundancy',
+          },
+          {
+            title: 'Organization of records in files (Fixed-length vs Variable-length records)',
+            pdfId: 'pdf-m4-1',
+            location: 'Slide 3–11',
+            description: 'Record representation, byte offsets, pointer chains & handling deletions',
+          },
+          {
+            title: 'File Organization Types (Sequential, Heap, Hash, B+ Tree, Cluster, ISAM)',
+            pdfId: 'pdf-m4-1',
+            location: 'Slide 12–26',
+            description: 'Sequential vs sorted file methods, heap insertion, hash file & cluster organization',
+          },
+          {
+            title: 'Data Dictionary Storage (System Catalog)',
+            pdfId: 'pdf-m4-1',
+            location: 'Slide 27',
+            description: 'Metadata storage, relation schemas, user accounts and access authorizations',
+          },
+        ],
+      },
+      {
+        id: 'adv-m4-s2',
+        timeSlot: 'Core Session 2 (2 Hours)',
+        title: 'Indexing & Ordered Indices',
+        keyGoal: 'Master primary, dense, sparse, clustered, and secondary indices',
+        topicItems: [
+          {
+            title: 'Indexing Basic Concepts & Search Keys',
+            pdfId: 'pdf-m4-2',
+            location: 'Slide 1–5',
+            description: 'Index evaluation metrics: access time, insertion time, deletion time, space overhead',
+          },
+          {
+            title: 'Primary Index on Primary Key',
+            pdfId: 'pdf-m4-2',
+            location: 'Slide 5',
+            description: 'Ordered data file indexed sequentially on primary key attribute',
+          },
+          {
+            title: 'Dense Index vs Sparse Index',
+            pdfId: 'pdf-m4-2',
+            location: 'Slide 6–11 & 26',
+            description: 'Index record for every search key vs index record for each block header',
+          },
+          {
+            title: 'Clustered Index vs Secondary Index (Multi-level Indexing)',
+            pdfId: 'pdf-m4-2',
+            location: 'Slide 12–25 & 27',
+            description: 'Sequential ordering of data blocks matching index vs non-ordering secondary pointers',
+          },
+        ],
+      },
+      {
+        id: 'adv-m4-s3',
+        timeSlot: 'Core Session 3 (2 Hours)',
+        title: 'B-Tree & B+ Tree Index Files',
+        keyGoal: 'Construct B+ trees step-by-step and master node splitting & merging',
+        topicItems: [
+          {
+            title: 'B+ Tree Structure & Multi-Level Indexing Properties',
+            pdfId: 'pdf-m4-3',
+            location: 'Slide 1–3',
+            description: 'Balanced binary search tree, internal node pointer capacity, leaf linked-list',
+            secondaryPdfId: 'pdf-m4-4',
+            secondaryLocation: 'Slide 1–4',
+          },
+          {
+            title: 'B+ Tree Construction, Key Insertion & Node Splitting Algorithm',
+            pdfId: 'pdf-m4-4',
+            location: 'Slide 4–7',
+            description: 'Step-by-step insertion of keys 10, 20, 30, 40, 50, 60 with leaf node splitting',
+          },
+          {
+            title: 'B+ Tree Search & Deletion (Merge vs Borrow Redistribution)',
+            pdfId: 'pdf-m4-4',
+            location: 'Slide 8–14',
+            description: 'Searching roll number 40, deleting key 60 & 10 with node redistribution',
+          },
+          {
+            title: 'B-Tree Index Files & Multiple - Key Access (Comparison with B+ Tree)',
+            pdfId: 'pdf-m4-4',
+            location: 'Slide 15–31',
+            description: 'B-Tree order 4 insertion/deletion vs B+ Tree, composite key indexing',
+          },
+        ],
+      },
+      {
+        id: 'adv-m4-s4',
+        timeSlot: 'Core Session 4 (2 Hours)',
+        title: 'Static & Dynamic Hashing',
+        keyGoal: 'Compare extendible dynamic hashing with ordered indexing',
+        topicItems: [
+          {
+            title: 'Static Hashing (Hash Functions, Bucket Overflow & Chaining)',
+            pdfId: 'pdf-m4-5',
+            location: 'Slide 1–10',
+            description: 'Hash functions, collision handling, open addressing and bucket chaining',
+          },
+          {
+            title: 'Dynamic Hashing (Extendible Hashing & Directories)',
+            pdfId: 'pdf-m4-5',
+            location: 'Slide 11–20',
+            description: 'Directories, global depth vs local depth, bucket splitting on overflow',
+          },
+          {
+            title: 'Comparison of Ordered Indexing and Hashing',
+            pdfId: 'pdf-m4-5',
+            location: 'Slide 21–25',
+            description: 'Exact match query efficiency vs range query performance comparison',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    moduleNumber: 5,
+    title: 'Transaction & Concurrency Control',
+    hours: 8,
+    badgeColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+    syllabusDescription:
+      'Transaction: Transaction concepts - A simple Transaction model - ACID properties - Implementation of atomicity and durability - transaction isolation - serializability - transaction Isolation and atomicity - transaction Isolation levels - Concurrency control -Two Phase Locking - Timestamp - Multi - version - Validation and Snapshot isolation- Multiple Granularity locking.',
+    sessions: [
+      {
+        id: 'adv-m5-s1',
+        timeSlot: 'Core Session 1 (2 Hours)',
+        title: 'Transaction Concepts & ACID Properties',
+        keyGoal: 'Understand transaction states, ACID properties, and WAL recovery',
+        topicItems: [
+          {
+            title: 'Transaction Concepts & A Simple Transaction Model',
+            pdfId: 'pdf-m5-1',
+            location: 'Slide 1–10',
+            description: 'Logical unit of work, Read(X) and Write(X) primitives',
+          },
+          {
+            title: 'Transaction States (Active, Partially Committed, Committed, Failed, Aborted)',
+            pdfId: 'pdf-m5-1',
+            location: 'Slide 11–18',
+            description: 'State transition lifecycle diagram and transaction termination conditions',
+          },
+          {
+            title: 'ACID Properties (Atomicity, Consistency, Isolation, Durability)',
+            pdfId: 'pdf-m5-2',
+            location: 'Slide 1–12',
+            description: 'Detailed analysis of all 4 ACID pillars and consistency preservation',
+            secondaryPdfId: 'pdf-m5-5',
+            secondaryLocation: 'Slide 1–8',
+          },
+          {
+            title: 'Implementation of Atomicity and Durability (Shadow Paging & Write-Ahead Logging WAL)',
+            pdfId: 'pdf-m5-2',
+            location: 'Slide 13–24',
+            description: 'Log-based recovery, redo/undo operations and shadow directory paging',
+          },
+        ],
+      },
+      {
+        id: 'adv-m5-s2',
+        timeSlot: 'Core Session 2 (2 Hours)',
+        title: 'Serializability & Scheduling',
+        keyGoal: 'Test conflict serializability using precedence graphs and verify recoverable schedules',
+        topicItems: [
+          {
+            title: 'Concurrent Executions & Interleaving Anomalies (Dirty Read, Lost Update)',
+            pdfId: 'pdf-m5-3',
+            location: 'Slide 1–12',
+            description: 'Need for concurrency control and anomalies of uncoordinated execution',
+          },
+          {
+            title: 'Serial vs Non-Serial Schedules',
+            pdfId: 'pdf-m5-4',
+            location: 'Slide 1–8',
+            description: 'Serial execution baseline vs interleaved non-serial concurrent schedules',
+          },
+          {
+            title: 'Conflict Serializability & Precedence Graph Cycle Testing',
+            pdfId: 'pdf-m5-4',
+            location: 'Slide 9–11',
+            description: 'Conflicting operations test (R-W, W-R, W-W) and topological sorting',
+          },
+          {
+            title: 'View Serializability & Testing Conditions',
+            pdfId: 'pdf-m5-4',
+            location: 'Slide 12–15',
+            description: 'Initial read, updated read, final write equivalence conditions',
+          },
+          {
+            title: 'Recoverable vs Non-Recoverable Schedules & Cascading Rollbacks',
+            pdfId: 'pdf-m5-4',
+            location: 'Slide 16–23',
+            description: 'Cascadeless schedules and dirty read commit ordering',
+          },
+        ],
+      },
+      {
+        id: 'adv-m5-s3',
+        timeSlot: 'Core Session 3 (2 Hours)',
+        title: 'Concurrency Control Protocols (Locks & Timestamps)',
+        keyGoal: 'Master Two-Phase Locking (2PL), Strict 2PL, and Timestamp ordering rules',
+        topicItems: [
+          {
+            title: 'Two-Phase Locking (2PL, Strict 2PL, Rigorous 2PL)',
+            pdfId: 'pdf-m5-6',
+            location: 'Slide 1–4',
+            description: 'Growing phase, shrinking phase, shared/exclusive locks and cascading prevention',
+          },
+          {
+            title: 'Timestamp-Based Ordering Protocol (Read & Write Rules, Thomas Write Rule)',
+            pdfId: 'pdf-m5-6',
+            location: 'Slide 5–7',
+            description: 'Timestamp ordering rules, abort and restart mechanism & Thomas write rule',
+          },
+          {
+            title: 'Validation-Based Protocol (Optimistic Concurrency Control)',
+            pdfId: 'pdf-m5-6',
+            location: 'Slide 8–10',
+            description: 'Read phase, validation phase, write phase & validation test conditions',
+          },
+          {
+            title: 'Transaction Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable)',
+            pdfId: 'pdf-m5-4',
+            location: 'Slide 20–22',
+            description: 'SQL isolation levels, phantom reads, and non-repeatable read prevention',
+          },
+        ],
+      },
+      {
+        id: 'adv-m5-s4',
+        timeSlot: 'Core Session 4 (2 Hours)',
+        title: 'MVCC, Snapshot Isolation & Multiple Granularity',
+        keyGoal: 'Understand multi-versioning, snapshot isolation and intention locking hierarchy',
+        topicItems: [
+          {
+            title: 'Multi-Version Concurrency Control (MVCC) & Snapshot Isolation',
+            pdfId: 'pdf-m5-7',
+            location: 'Slide 1–12',
+            description: 'Multi-version timestamp ordering, reading older committed versions without locking',
+          },
+          {
+            title: 'Multiple Granularity Locking (Database, Table, Page, Record)',
+            pdfId: 'pdf-m5-6',
+            location: 'Slide 3–4',
+            description: 'Intention locks (IS, IX, SIX) and hierarchical lock tree traversal',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    moduleNumber: 6,
+    title: 'NOSQL Database',
+    hours: 8,
+    badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+    syllabusDescription:
+      'NOSQL Databases: Introduction - CAP Theorem - Document Based NOSQL systems - Key - value Stores - Column - Based Systems - Graph Databases.',
+    sessions: [
+      {
+        id: 'adv-m6-s1',
+        timeSlot: 'Core Session 1 (2.5 Hours)',
+        title: 'NoSQL Introduction & CAP Theorem',
+        keyGoal: 'Understand RDBMS vs NoSQL tradeoffs, ACID vs BASE, and CAP theorem',
+        topicItems: [
+          {
+            title: 'NOSQL Databases: Introduction & Comparison with RDBMS (ACID vs BASE)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 1–9',
+            description: 'Not Only SQL definition, RDBMS impedance mismatch, horizontal scalability',
+          },
+          {
+            title: 'CAP Theorem (Consistency, Availability, Partition Tolerance)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 43–45',
+            description: 'Brewer CAP theorem, 2 out of 3 guarantee, PACELC theorem, CP vs AP systems',
+          },
+          {
+            title: 'Overview of the 4 NoSQL Database Families',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 10–11',
+            description: 'Classification: Document, Key-Value, Column-Family, and Graph-Based',
+          },
+        ],
+      },
+      {
+        id: 'adv-m6-s2',
+        timeSlot: 'Core Session 2 (2.5 Hours)',
+        title: 'Document-Based & Key-Value Stores',
+        keyGoal: 'Master MongoDB document stores and high-performance Key-Value maps',
+        topicItems: [
+          {
+            title: 'Document Based NOSQL Systems (MongoDB Architecture, JSON/BSON, Collections)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 12–20',
+            description: 'Loosely structured sets of key-value pairs, nested documents, MongoDB CRUD',
+          },
+          {
+            title: 'Key - value Stores (Redis, DynamoDB, Schema-less Key Maps)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 21–25',
+            description: 'Hash table storage, high-throughput caching, key-value partitioning & lookups',
+          },
+        ],
+      },
+      {
+        id: 'adv-m6-s3',
+        timeSlot: 'Core Session 3 (3 Hours)',
+        title: 'Column-Based Systems & Graph Databases',
+        keyGoal: 'Analyze Cassandra column projections and Neo4j property graph traversals',
+        topicItems: [
+          {
+            title: 'Column - Based Systems (Apache Cassandra, HBase, Row vs Column Store)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 26–36',
+            description: 'Row-store vs column-store speed for read-mostly analytics, projection joins',
+          },
+          {
+            title: 'Graph Databases (Neo4j, Nodes, Edges, Properties, Cypher Queries)',
+            pdfId: 'pdf-m6-1',
+            location: 'Slide 37–42',
+            description: 'Graph-oriented modeling, edge properties, social network and recommendation queries',
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -300,7 +799,7 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
   onOpenTimer,
   onOpenSyncCalendar,
 }) => {
-  const STORAGE_KEY = 'karunya_internal_sprint_state_v3';
+  const STORAGE_KEY = 'karunya_internal_sprint_state_v4';
 
   // Target exam date: Thursday, November 5, 2026, 09:00 AM IST
   const examDate = new Date('2026-11-05T09:00:00+05:30');
@@ -724,7 +1223,15 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
               title: 'Armstrong\'s Axioms: Reflexivity, Augmentation, Transitivity (+ Union, Decomposition)',
               pdfId: 'pdf-m3-4',
               location: 'Slide 2–5',
-              description: 'Primary axioms (Reflexivity, Augmentation, Transitivity) and secondary inference rules',
+              description: 'Primary axioms & secondary inference rules',
+              secondaryPdfId: 'pdf-m3-8',
+              secondaryLocation: 'Docx Notes p.1–6',
+            },
+            {
+              title: 'Armstrong\'s Axioms In-Depth Notes & Numerical Proofs (From New PDFs)',
+              pdfId: 'pdf-m3-8',
+              location: 'Pages 1–6',
+              description: 'Detailed derivations of Armstrong Axioms, reflexivity, augmentation and transitivity with examples',
             },
             {
               title: 'Attribute Closure Algorithm (X+) - Essential step-by-step method',
@@ -966,7 +1473,7 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
 
   // State with safe merge of localStorage
   const [days, setDays] = useState<SprintDay[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('karunya_internal_sprint_state_v2');
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('karunya_internal_sprint_state_v3');
     if (saved) {
       try {
         const parsed: any[] = JSON.parse(saved);
@@ -994,6 +1501,9 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
   const [selectedDayId, setSelectedDayId] = useState<string>('day-1');
   const [activeAccordion, setActiveAccordion] = useState<'schedule' | 'pdfhub' | 'qbank' | 'cheatsheet'>('schedule');
   const [copiedNotification, setCopiedNotification] = useState<boolean>(false);
+
+  // Selected module for Modules 4, 5, 6 section
+  const [selectedAdvModule, setSelectedAdvModule] = useState<number>(4);
 
   // In-app PDF Viewer Modal
   const [activeViewingPdf, setActiveViewingPdf] = useState<{ pdf: PdfMaterial; location?: string } | null>(null);
@@ -1043,12 +1553,16 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
   };
 
   const handleCopySchedule = () => {
-    const text = `Karunya DBMS (21CS302) 4-Day Internal Exam Sprint (Modules 1-3)
+    const text = `Karunya DBMS (21CS302) 4-Day Internal Exam Sprint (Modules 1-3) + Modules 4, 5, 6
 Day 1 (Sun, Nov 1): Module 1 - Architecture & Relational Algebra (7h)
 Day 2 (Mon, Nov 2): Module 2 - SQL, Nested Queries, Joins & Triggers (7h)
 Day 3 (Tue, Nov 3): Module 3 - ER Modeling, FDs, Candidate Keys & Normalization (7h)
 Day 4 (Wed, Nov 4): Full Mock Exam & Karunya Question Bank Blitz (7.5h)
-Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
+Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!
+Extended Syllabus:
+Module 4: File Structure and Indexing (8h)
+Module 5: Transactions & Concurrency Control (8h)
+Module 6: NoSQL Databases & CAP Theorem (8h)`;
     navigator.clipboard.writeText(text);
     setCopiedNotification(true);
     setTimeout(() => setCopiedNotification(false), 3000);
@@ -1082,6 +1596,10 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
     return matchesModule && matchesSearch;
   });
 
+  const activeAdvModuleData =
+    ADVANCED_MODULES_4_5_6.find((m) => m.moduleNumber === selectedAdvModule) ||
+    ADVANCED_MODULES_4_5_6[0];
+
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Top Hero Banner */}
@@ -1094,25 +1612,25 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20">
                 <Zap className="h-3.5 w-3.5 fill-slate-950" />
-                Special 4-Day Internal Sprint
+                Complete 6-Module Syllabus
               </span>
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">
                 DBMS (21CS302)
               </span>
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                Target: Modules 1, 2 & 3
+                Internal Exam: Mod 1, 2 & 3
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                 <FileText className="h-3 w-3 text-emerald-400" />
-                <span>PDFs Mapped by Slide & Title</span>
+                <span>37 Course PDFs Mapped</span>
               </span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              4-Day Crash Planner with Topic-Level PDF References
+              Karunya DBMS Complete 6-Module Study Planner
             </h1>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Every single learning topic below now has its exact slide deck and exact slide/page numbers placed directly next to the title. Click any PDF button to open the document right away!
+              Every topic from Modules 1 to 6 now features its exact lecture PDF and slide numbers placed directly next to the title. Modules 1, 2, and 3 are structured for your Thursday internal exam sprint, and Modules 4, 5, and 6 are provided right below!
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -1121,7 +1639,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-slate-950 shadow-md shadow-emerald-600/20 transition cursor-pointer"
               >
                 <BookOpen className="h-3.5 w-3.5 text-slate-950" />
-                <span>Browse All 23 Course PDFs</span>
+                <span>Browse All 37 Course PDFs</span>
               </button>
               <button
                 onClick={handleCopySchedule}
@@ -1170,7 +1688,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
             {/* Overall Sprint Progress Bar */}
             <div className="w-full mt-4 pt-4 border-t border-slate-800">
               <div className="flex justify-between items-center text-xs text-slate-300 mb-1.5 font-medium">
-                <span>Sprint Completion</span>
+                <span>Internal Sprint Completion</span>
                 <span className="font-bold text-amber-400">{completedSessionsCount}/{totalSessionsCount} ({completionPercentage}%)</span>
               </div>
               <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
@@ -1195,7 +1713,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
           }`}
         >
           <Calendar className="h-4 w-4" />
-          <span>4-Day Timetable & PDF Topics</span>
+          <span>Full Syllabus & Topic PDFs</span>
         </button>
 
         <button
@@ -1209,7 +1727,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
           <FileText className="h-4 w-4" />
           <span>Course PDFs & Slides Hub</span>
           <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-200 border border-emerald-500/40 font-mono">
-            23 Files
+            37 Files
           </span>
         </button>
 
@@ -1238,194 +1756,434 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
         </button>
       </div>
 
-      {/* TAB 1: 4-DAY TIMETABLE VIEW WITH PDF ASSIGNED NEXT TO EACH TOPIC */}
+      {/* TAB 1: 4-DAY TIMETABLE (MODULES 1-3) + EXTENDED SECTION (MODULES 4, 5, 6) */}
       {activeAccordion === 'schedule' && (
-        <div className="space-y-6">
-          {/* Day Selector Buttons */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {days.map((day) => {
-              const isSelected = day.dayId === selectedDayId;
-              const completedInDay = day.sessions.filter((s) => s.completed).length;
-              const allDone = completedInDay === day.sessions.length;
-
-              return (
-                <button
-                  key={day.dayId}
-                  onClick={() => setSelectedDayId(day.dayId)}
-                  className={`text-left p-3.5 rounded-xl border transition-all cursor-pointer relative ${
-                    isSelected
-                      ? 'bg-slate-800/90 border-amber-500 ring-2 ring-amber-500/30 shadow-lg'
-                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
-                      Day {day.dayNumber}
-                    </span>
-                    {allDone ? (
-                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    ) : (
-                      <span className="text-[10px] text-slate-400">
-                        {completedInDay}/{day.sessions.length}
-                      </span>
-                    )}
-                  </div>
-                  <div className="font-bold text-white text-sm mt-0.5">{day.dayName}</div>
-                  <div className="text-[11px] text-slate-400 mt-1 truncate">{day.moduleCovered}</div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Selected Day Content */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
-              <div>
-                <div className="text-xs font-bold text-amber-400 uppercase tracking-wide">
-                  Day {selectedDay.dayNumber} • {selectedDay.dateStr}
+        <div className="space-y-10">
+          {/* ======================================================== */}
+          {/* SECTION 1: MODULES 1, 2, AND 3 (INTERNAL EXAM 4-DAY SPRINT) */}
+          {/* ======================================================== */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-3">
+              <div className="flex items-center gap-2.5">
+                <span className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  <Zap className="h-4 w-4 fill-amber-400" />
+                </span>
+                <div>
+                  <h3 className="text-lg font-bold text-white">
+                    Section 1: Modules 1, 2 & 3 — Internal Exam Sprint (Thu Target)
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Day-by-day 4-day time-blocked schedule with PDFs linked directly next to each topic
+                  </p>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                  {selectedDay.focusTitle}
-                </h2>
-                <p className="text-xs text-slate-400 mt-1">
-                  Target: {selectedDay.targetHours} Hours • {selectedDay.sessions.length} Focus Blocks. Every topic has its exact PDF and slide location right next to the title.
-                </p>
+              </div>
+            </div>
+
+            {/* Day Selector Buttons */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {days.map((day) => {
+                const isSelected = day.dayId === selectedDayId;
+                const completedInDay = day.sessions.filter((s) => s.completed).length;
+                const allDone = completedInDay === day.sessions.length;
+
+                return (
+                  <button
+                    key={day.dayId}
+                    onClick={() => setSelectedDayId(day.dayId)}
+                    className={`text-left p-3.5 rounded-xl border transition-all cursor-pointer relative ${
+                      isSelected
+                        ? 'bg-slate-800/90 border-amber-500 ring-2 ring-amber-500/30 shadow-lg'
+                        : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
+                        Day {day.dayNumber}
+                      </span>
+                      {allDone ? (
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                      ) : (
+                        <span className="text-[10px] text-slate-400">
+                          {completedInDay}/{day.sessions.length}
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-bold text-white text-sm mt-0.5">{day.dayName}</div>
+                    <div className="text-[11px] text-slate-400 mt-1 truncate">{day.moduleCovered}</div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Selected Day Content */}
+            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                <div>
+                  <div className="text-xs font-bold text-amber-400 uppercase tracking-wide">
+                    Day {selectedDay.dayNumber} • {selectedDay.dateStr}
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mt-1">
+                    {selectedDay.focusTitle}
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Target: {selectedDay.targetHours} Hours • {selectedDay.sessions.length} Focus Blocks with assigned lecture PDFs
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => onOpenTimer && onOpenTimer(selectedDay.focusTitle)}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shadow-md shadow-amber-500/20"
+                  >
+                    <Timer className="h-4 w-4" />
+                    <span>Start 50-Min Pomodoro</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* Sessions Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {selectedDay.sessions.map((session) => (
+                  <div
+                    key={session.id}
+                    className={`p-4 rounded-xl border transition-all flex flex-col justify-between ${
+                      session.completed
+                        ? 'bg-emerald-950/20 border-emerald-500/40 opacity-80'
+                        : 'bg-slate-950/70 border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleToggleSession(session.id)}
+                            className="text-slate-400 hover:text-amber-400 cursor-pointer"
+                          >
+                            {session.completed ? (
+                              <CheckCircle2 className="h-5 w-5 text-emerald-400 fill-emerald-500/20" />
+                            ) : (
+                              <Circle className="h-5 w-5 text-slate-500 hover:text-amber-400" />
+                            )}
+                          </button>
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700">
+                            {session.timeSlot}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {session.estMinutes} mins
+                        </span>
+                      </div>
+
+                      {/* Learning Title */}
+                      <div>
+                        <h3
+                          className={`text-base font-bold ${
+                            session.completed ? 'line-through text-slate-400' : 'text-white'
+                          }`}
+                        >
+                          {session.title}
+                        </h3>
+                      </div>
+
+                      {/* TOPIC ITEMS WITH PDF BUTTONS DIRECTLY NEXT TO TEXT */}
+                      <div className="space-y-2 pt-1">
+                        {session.topicItems.map((topic, idx) => {
+                          const pdf = ALL_COURSE_PDFS.find((p) => p.id === topic.pdfId) || ALL_COURSE_PDFS[0];
+                          const secondaryPdf = topic.secondaryPdfId
+                            ? ALL_COURSE_PDFS.find((p) => p.id === topic.secondaryPdfId)
+                            : null;
+
+                          return (
+                            <div
+                              key={idx}
+                              className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col gap-1.5"
+                            >
+                              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                                {/* Topic Name */}
+                                <div className="flex items-start gap-2 flex-1 min-w-0">
+                                  <span className="text-amber-400 mt-0.5 shrink-0 font-bold">•</span>
+                                  <span className="text-xs font-semibold text-slate-100 leading-snug">
+                                    {topic.title}
+                                  </span>
+                                </div>
+
+                                {/* PDF Button placed DIRECTLY NEXT TO THE TEXT */}
+                                <div className="flex flex-wrap items-center gap-1.5 shrink-0 self-start sm:self-auto ml-4 sm:ml-0">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenPdf(pdf, 'modal', topic.location);
+                                    }}
+                                    title={`Click to open ${pdf.name} (${topic.location})`}
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[11px] font-medium transition cursor-pointer group shadow-sm"
+                                  >
+                                    <FileText className="h-3 w-3 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+                                    <span className="font-semibold text-slate-200 truncate max-w-[130px] sm:max-w-[160px]">
+                                      {pdf.shortName}
+                                    </span>
+                                    <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 font-mono text-[10px] font-bold shrink-0">
+                                      {topic.location}
+                                    </span>
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenPdf(pdf, 'new-tab');
+                                    }}
+                                    title="Open in new full tab"
+                                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                                  >
+                                    <ExternalLink className="h-3 w-3" />
+                                  </button>
+
+                                  {/* Secondary PDF if any */}
+                                  {secondaryPdf && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleOpenPdf(secondaryPdf, 'modal', topic.secondaryLocation);
+                                      }}
+                                      title={`Click to open ${secondaryPdf.name} (${topic.secondaryLocation})`}
+                                      className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/40 text-[10px] font-medium transition cursor-pointer"
+                                    >
+                                      <FileText className="h-3 w-3 text-indigo-400 shrink-0" />
+                                      <span className="truncate max-w-[110px]">{secondaryPdf.shortName}</span>
+                                      <span className="font-mono font-bold text-indigo-200">{topic.secondaryLocation}</span>
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+
+                              {topic.description && (
+                                <p className="text-[11px] text-slate-400 pl-4 leading-relaxed">
+                                  {topic.description}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                      <span className="text-amber-300 font-medium">🎯 Goal: {session.keyTask}</span>
+                      <button
+                        onClick={() => onOpenTimer && onOpenTimer(session.title)}
+                        className="text-slate-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer font-semibold"
+                      >
+                        <Timer className="h-3 w-3" />
+                        <span>Timer</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ======================================================== */}
+          {/* SECTION 2: MODULES 4, 5, AND 6 (EXTENDED SYLLABUS SECTION) */}
+          {/* ======================================================== */}
+          <div className="pt-6 border-t border-slate-800 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-indigo-950/40 p-5 rounded-2xl border border-emerald-500/30">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                  <Database className="h-5 w-5 text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span>Section 2: Modules 4, 5 & 6 — Advanced Database Syllabus</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      8 Hours Each
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Storage & Indexing (Module 4) • Transactions & Concurrency (Module 5) • NoSQL & CAP Theorem (Module 6)
+                  </p>
+                </div>
+              </div>
+
+              {/* Module Filter Switcher */}
+              <div className="flex items-center gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800 shrink-0">
                 <button
-                  onClick={() => onOpenTimer && onOpenTimer(selectedDay.focusTitle)}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shadow-md shadow-amber-500/20"
+                  onClick={() => setSelectedAdvModule(4)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    selectedAdvModule === 4
+                      ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <Timer className="h-4 w-4" />
-                  <span>Start 50-Min Pomodoro</span>
+                  Module 4
+                </button>
+                <button
+                  onClick={() => setSelectedAdvModule(5)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    selectedAdvModule === 5
+                      ? 'bg-indigo-500 text-white shadow-md shadow-indigo-500/20'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Module 5
+                </button>
+                <button
+                  onClick={() => setSelectedAdvModule(6)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                    selectedAdvModule === 6
+                      ? 'bg-rose-500 text-white shadow-md shadow-rose-500/20'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Module 6
                 </button>
               </div>
             </div>
 
-            {/* Sessions Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {selectedDay.sessions.map((session) => (
-                <div
-                  key={session.id}
-                  className={`p-4 rounded-xl border transition-all flex flex-col justify-between ${
-                    session.completed
-                      ? 'bg-emerald-950/20 border-emerald-500/40 opacity-80'
-                      : 'bg-slate-950/70 border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleToggleSession(session.id)}
-                          className="text-slate-400 hover:text-amber-400 cursor-pointer"
-                        >
-                          {session.completed ? (
-                            <CheckCircle2 className="h-5 w-5 text-emerald-400 fill-emerald-500/20" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-slate-500 hover:text-amber-400" />
-                          )}
-                        </button>
-                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700">
+            {/* Active Advanced Module Details */}
+            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider ${activeAdvModuleData.badgeColor}`}>
+                      Module {activeAdvModuleData.moduleNumber} ({activeAdvModuleData.hours} Hours)
+                    </span>
+                    <span className="text-xs text-slate-400">• Semester Examination High Weight</span>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mt-1">
+                    {activeAdvModuleData.title}
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-1 max-w-3xl leading-relaxed">
+                    {activeAdvModuleData.syllabusDescription}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => onOpenTimer && onOpenTimer(`Module ${activeAdvModuleData.moduleNumber}: ${activeAdvModuleData.title}`)}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-xs transition border border-amber-500/30"
+                  >
+                    <Timer className="h-4 w-4 text-amber-400" />
+                    <span>Focus Timer</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Grid of Sessions for Module 4/5/6 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {activeAdvModuleData.sessions.map((session) => (
+                  <div
+                    key={session.id}
+                    className="p-4 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-slate-700 transition flex flex-col justify-between"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-emerald-300 border border-slate-700">
                           {session.timeSlot}
                         </span>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {session.topicItems.length} syllabus topics
+                        </span>
                       </div>
-                      <span className="text-[10px] text-slate-400 font-mono">
-                        {session.estMinutes} mins
-                      </span>
-                    </div>
 
-                    {/* Learning Title */}
-                    <div>
-                      <h3
-                        className={`text-base font-bold ${
-                          session.completed ? 'line-through text-slate-400' : 'text-white'
-                        }`}
-                      >
+                      <h4 className="text-base font-bold text-white">
                         {session.title}
-                      </h3>
-                    </div>
+                      </h4>
 
-                    {/* TOPIC ITEMS WITH PDF PLACED DIRECTLY NEXT TO THE TEXT */}
-                    <div className="space-y-2 pt-1">
-                      {session.topicItems.map((topic, idx) => {
-                        const pdf = ALL_COURSE_PDFS.find((p) => p.id === topic.pdfId) || ALL_COURSE_PDFS[0];
-                        return (
-                          <div
-                            key={idx}
-                            className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col gap-1.5"
-                          >
-                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                              {/* Topic Name */}
-                              <div className="flex items-start gap-2 flex-1 min-w-0">
-                                <span className="text-amber-400 mt-0.5 shrink-0 font-bold">•</span>
-                                <span className="text-xs font-semibold text-slate-100 leading-snug">
-                                  {topic.title}
-                                </span>
+                      {/* TOPIC ITEMS WITH PDFS DIRECTLY NEXT TO TEXT */}
+                      <div className="space-y-2 pt-1">
+                        {session.topicItems.map((topic, idx) => {
+                          const pdf = ALL_COURSE_PDFS.find((p) => p.id === topic.pdfId) || ALL_COURSE_PDFS[0];
+                          const secondaryPdf = topic.secondaryPdfId
+                            ? ALL_COURSE_PDFS.find((p) => p.id === topic.secondaryPdfId)
+                            : null;
+
+                          return (
+                            <div
+                              key={idx}
+                              className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col gap-1.5"
+                            >
+                              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                                <div className="flex items-start gap-2 flex-1 min-w-0">
+                                  <span className="text-emerald-400 mt-0.5 shrink-0 font-bold">•</span>
+                                  <span className="text-xs font-semibold text-slate-100 leading-snug">
+                                    {topic.title}
+                                  </span>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-1.5 shrink-0 self-start sm:self-auto ml-4 sm:ml-0">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenPdf(pdf, 'modal', topic.location);
+                                    }}
+                                    title={`Click to open ${pdf.name} (${topic.location})`}
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 text-[11px] font-medium transition cursor-pointer group shadow-sm"
+                                  >
+                                    <FileText className="h-3 w-3 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+                                    <span className="font-semibold text-slate-200 truncate max-w-[130px] sm:max-w-[160px]">
+                                      {pdf.shortName}
+                                    </span>
+                                    <span className="px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 font-mono text-[10px] font-bold shrink-0">
+                                      {topic.location}
+                                    </span>
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenPdf(pdf, 'new-tab');
+                                    }}
+                                    title="Open in new full tab"
+                                    className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                                  >
+                                    <ExternalLink className="h-3 w-3" />
+                                  </button>
+
+                                  {secondaryPdf && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleOpenPdf(secondaryPdf, 'modal', topic.secondaryLocation);
+                                      }}
+                                      title={`Click to open ${secondaryPdf.name} (${topic.secondaryLocation})`}
+                                      className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/40 text-[10px] font-medium transition cursor-pointer"
+                                    >
+                                      <FileText className="h-3 w-3 text-indigo-400 shrink-0" />
+                                      <span className="truncate max-w-[110px]">{secondaryPdf.shortName}</span>
+                                      <span className="font-mono font-bold text-indigo-200">{topic.secondaryLocation}</span>
+                                    </button>
+                                  )}
+                                </div>
                               </div>
 
-                              {/* Clickable PDF Button & Exact Location Tag directly next to the title */}
-                              <div className="flex items-center gap-1.5 shrink-0 self-start sm:self-auto ml-4 sm:ml-0">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleOpenPdf(pdf, 'modal', topic.location);
-                                  }}
-                                  title={`Click to open ${pdf.name} (${topic.location})`}
-                                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[11px] font-medium transition cursor-pointer group shadow-sm"
-                                >
-                                  <FileText className="h-3 w-3 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
-                                  <span className="font-semibold text-slate-200 truncate max-w-[140px] sm:max-w-[170px]">
-                                    {pdf.shortName}
-                                  </span>
-                                  <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 font-mono text-[10px] font-bold shrink-0">
-                                    {topic.location}
-                                  </span>
-                                </button>
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleOpenPdf(pdf, 'new-tab');
-                                  }}
-                                  title="Open in new full tab"
-                                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
-                                >
-                                  <ExternalLink className="h-3 w-3" />
-                                </button>
-                              </div>
+                              {topic.description && (
+                                <p className="text-[11px] text-slate-400 pl-4 leading-relaxed">
+                                  {topic.description}
+                                </p>
+                              )}
                             </div>
+                          );
+                        })}
+                      </div>
+                    </div>
 
-                            {/* Subtitle / summary of what to study on those slides */}
-                            {topic.description && (
-                              <p className="text-[11px] text-slate-400 pl-4 leading-relaxed">
-                                {topic.description}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
+                    <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                      <span className="text-emerald-300 font-medium">🎯 Goal: {session.keyGoal}</span>
+                      <button
+                        onClick={() => onOpenTimer && onOpenTimer(session.title)}
+                        className="text-slate-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer font-semibold"
+                      >
+                        <Timer className="h-3 w-3" />
+                        <span>Timer</span>
+                      </button>
                     </div>
                   </div>
-
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                    <span className="text-amber-300 font-medium">🎯 Goal: {session.keyTask}</span>
-                    <button
-                      onClick={() => onOpenTimer && onOpenTimer(session.title)}
-                      className="text-slate-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer font-semibold"
-                    >
-                      <Timer className="h-3 w-3" />
-                      <span>Timer</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 2: ALL COURSE PDFS & SLIDES HUB */}
+      {/* TAB 2: ALL COURSE PDFS & SLIDES HUB (37 FILES) */}
       {activeAccordion === 'pdfhub' && (
         <div className="space-y-6">
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
@@ -1433,10 +2191,10 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
               <div>
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
                   <FileText className="h-5 w-5 text-emerald-400" />
-                  <span>Karunya DBMS Lecture PDFs & Study Materials (23 Files)</span>
+                  <span>Karunya DBMS Lecture PDFs & Study Materials (37 Files)</span>
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">
-                  Downloaded from your course folder and bundled directly with the app. Open any slide deck or question bank in a single click.
+                  All 37 slide decks and question banks from your course folders are bundled with the app. Open any document in a single click.
                 </p>
               </div>
 
@@ -1480,7 +2238,37 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                   }`}
                 >
-                  Module 3 (7)
+                  Module 3 (8)
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(4)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 4
+                      ? 'bg-emerald-500 text-slate-950 font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 4 (6)
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(5)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 5
+                      ? 'bg-indigo-500 text-white font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 5 (7)
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(6)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 6
+                      ? 'bg-rose-500 text-white font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 6 (1)
                 </button>
               </div>
             </div>
@@ -1490,7 +2278,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
               <Search className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search PDF slides (e.g. Architecture, Keys, Normalization, Triggers, E-R Diagram)..."
+                placeholder="Search all 37 PDF files (e.g. B-Tree, Indexing, Transactions, ACID, NoSQL, Normalization)..."
                 value={pdfSearchQuery}
                 onChange={(e) => setPdfSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
@@ -1514,7 +2302,13 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
                             ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
                             : pdf.module === 3
                             ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                            : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                            : pdf.module === 4
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                            : pdf.module === 5
+                            ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                            : pdf.module === 6
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                            : 'bg-slate-700 text-slate-300'
                         }`}
                       >
                         {pdf.module === 0 ? 'Question Bank' : `Module ${pdf.module}`}
