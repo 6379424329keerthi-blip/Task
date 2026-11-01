@@ -10,6 +10,7 @@ import {
   Flame,
   Award,
   ArrowUpDown,
+  Zap,
 } from 'lucide-react';
 import { SUBJECTS_DATA, KARUNYA_QUESTION_BANK_URL } from './data/curriculumData';
 import { generateDefaultSchedule } from './utils/scheduleGenerator';
@@ -19,6 +20,7 @@ import { OverviewDashboard } from './components/OverviewDashboard';
 import { ReverseRoadmapView } from './components/ReverseRoadmapView';
 import { DailyCalendarView } from './components/DailyCalendarView';
 import { KarunyaQuestionBankHub } from './components/KarunyaQuestionBankHub';
+import { InternalExamSprintView } from './components/InternalExamSprintView';
 import { SyncModal, SyncConfig } from './components/SyncModal';
 import { StudyTimerModal } from './components/StudyTimerModal';
 import { SubjectDeepDiveModal } from './components/SubjectDeepDiveModal';
@@ -51,7 +53,7 @@ export default function App() {
 
   const [user, setUser] = useState<User | null>(null);
   const [hasGoogleToken, setHasGoogleToken] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'roadmap' | 'calendar' | 'question-bank'>('overview');
+  const [activeTab, setActiveTab] = useState<'internal-sprint' | 'overview' | 'roadmap' | 'calendar' | 'question-bank'>('internal-sprint');
   const [moduleOrder, setModuleOrder] = useState<ModuleOrder>('6-to-1');
 
   // Modals & Navigation state
@@ -251,6 +253,21 @@ export default function App() {
             {/* Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
               <button
+                onClick={() => setActiveTab('internal-sprint')}
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
+                  activeTab === 'internal-sprint'
+                    ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-amber-500 text-slate-950 shadow-md shadow-amber-500/25 ring-2 ring-amber-400/50'
+                    : 'text-amber-400/90 hover:text-amber-300 hover:bg-slate-800/60 border border-amber-500/30'
+                }`}
+              >
+                <Zap className="h-4 w-4 fill-current" />
+                <span>⚡ 4-Day Internal Sprint (Mod 1-3)</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-rose-500/40 text-rose-200 font-extrabold uppercase">
+                  Thu Internal
+                </span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab('overview')}
                 className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
                   activeTab === 'overview'
@@ -320,6 +337,15 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {activeTab === 'internal-sprint' && (
+          <InternalExamSprintView
+            onOpenTimer={(title) => {
+              setIsTimerOpen(true);
+            }}
+            onOpenSyncCalendar={handleSyncAllCalendar}
+          />
+        )}
+
         {activeTab === 'overview' && (
           <OverviewDashboard
             subjects={subjects}
