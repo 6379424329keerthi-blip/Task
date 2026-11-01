@@ -22,10 +22,25 @@ import {
   FileSpreadsheet,
   Check,
   Share2,
+  FileText,
+  Download,
+  X,
+  Search,
+  Maximize2,
 } from 'lucide-react';
 import { KARUNYA_QUESTION_BANK_URL } from '../data/curriculumData';
 
-interface SprintSession {
+export interface PdfMaterial {
+  id: string;
+  name: string;
+  filename: string;
+  size: string;
+  module: number;
+  description?: string;
+  isQuestionBank?: boolean;
+}
+
+export interface SprintSession {
   id: string;
   timeSlot: string;
   title: string;
@@ -35,9 +50,10 @@ interface SprintSession {
   keyTask: string;
   completed: boolean;
   estMinutes: number;
+  pdfMaterials: PdfMaterial[];
 }
 
-interface SprintDay {
+export interface SprintDay {
   dayId: string;
   dayNumber: number;
   dayName: string;
@@ -48,6 +64,208 @@ interface SprintDay {
   sessions: SprintSession[];
 }
 
+export const ALL_COURSE_PDFS: PdfMaterial[] = [
+  // Module 1
+  {
+    id: 'pdf-m1-1',
+    name: '1. Introduction to Database Systems & Purpose',
+    filename: '1. Introduction-Dtabase System Application- Purpose of Database System.pptx.pdf',
+    size: '147.2 KB',
+    module: 1,
+    description: 'DBMS applications, file system drawbacks, data abstraction & schemas',
+  },
+  {
+    id: 'pdf-m1-2',
+    name: '2. View of Data - DB Languages & Independence',
+    filename: '2. View of Data - DB Language.pptx.pdf',
+    size: '855.3 KB',
+    module: 1,
+    description: 'Three schema levels, physical & logical data independence, DDL & DML languages',
+  },
+  {
+    id: 'pdf-m1-3',
+    name: '4. Database Architecture (Lecture Slides)',
+    filename: '4. Database Architecture.pptx.pdf',
+    size: '506.3 KB',
+    module: 1,
+    description: 'Storage manager, query processor, centralized & client-server architecture',
+  },
+  {
+    id: 'pdf-m1-4',
+    name: 'DBMS Architecture (Notes & Diagrams)',
+    filename: 'dbms architecture.pdf',
+    size: '317.2 KB',
+    module: 1,
+    description: 'Diagrammatic reference for 3-Schema Architecture and functional components',
+  },
+  {
+    id: 'pdf-m1-5',
+    name: '3.1. Relational Database - Tables & Tuples',
+    filename: '3.1. Relational Database- Tables.pptx.pdf',
+    size: '536.4 KB',
+    module: 1,
+    description: 'Relational model structure, domains, attributes, tuples & relational integrity',
+  },
+  {
+    id: 'pdf-m1-6',
+    name: '3.4. Database Design Foundations',
+    filename: '3.4. Database Design.pptx.pdf',
+    size: '229.9 KB',
+    module: 1,
+    description: 'Design phases, schema diagrams and ER-to-relational design foundations',
+  },
+  {
+    id: 'pdf-m1-7',
+    name: '6. Database Keys Mastery (Candidate, Super, PK, FK)',
+    filename: '6. Keys.pptx.pdf',
+    size: '1.2 MB',
+    module: 1,
+    description: 'Super Key, Candidate Key, Primary Key, Alternate Key & Foreign Key constraints',
+  },
+  {
+    id: 'pdf-m1-8',
+    name: '5. Distributed DB and Data Warehousing',
+    filename: '5. Distributed DB and Data Warehousing.pptx.pdf',
+    size: '622.5 KB',
+    module: 1,
+    description: 'Distributed database architecture, fragmentation & data warehousing concepts',
+  },
+
+  // Module 2
+  {
+    id: 'pdf-m2-1',
+    name: 'Module 1 & 2 Introduction to SQL',
+    filename: 'Module1_ Introduction_to_SQL.pptx.pdf',
+    size: '599.9 KB',
+    module: 2,
+    description: 'Overview of SQL, DDL, basic structure of SQL queries, set operations & aggregates',
+  },
+  {
+    id: 'pdf-m2-2',
+    name: 'SQL Joins (Inner, Outer, Self Joins)',
+    filename: 'SQL_Joins.pptx.pdf',
+    size: '259.8 KB',
+    module: 2,
+    description: 'Inner Join, Natural Join, Left/Right/Full Outer Joins with query syntax',
+  },
+  {
+    id: 'pdf-m2-3',
+    name: 'Joins and Set Operations (Relational Algebra & SQL)',
+    filename: 'Joins and set.pptx.pdf',
+    size: '1.1 MB',
+    module: 2,
+    description: 'Relational algebra joins, set operations (Union, Intersect, Except) and examples',
+  },
+  {
+    id: 'pdf-m2-4',
+    name: 'SQL Mid & Advanced Concepts',
+    filename: 'SQL_Mid_Advanced_Concepts.pptx.pdf',
+    size: '383.5 KB',
+    module: 2,
+    description: 'Nested subqueries, correlated subqueries, views, integrity constraints & authorization',
+  },
+  {
+    id: 'pdf-m2-5',
+    name: 'Database Triggers & PL/SQL',
+    filename: 'Triggers.pptx.pdf',
+    size: '640.1 KB',
+    module: 2,
+    description: 'Trigger architecture, BEFORE/AFTER row triggers, :OLD and :NEW qualifiers & audit examples',
+  },
+  {
+    id: 'pdf-m2-6',
+    name: 'Assignment Questions in PL/SQL & Triggers',
+    filename: 'Assiignment Questions in PLSQL.docx.pdf',
+    size: '56.9 KB',
+    module: 2,
+    description: 'Karunya assignment problems for stored procedures, functions and trigger scripts',
+    isQuestionBank: true,
+  },
+
+  // Module 3
+  {
+    id: 'pdf-m3-1',
+    name: '20-21. E-R Diagram Comprehensive Deck',
+    filename: '20-21. E-R Diagram.pptx.pdf',
+    size: '2.2 MB',
+    module: 3,
+    description: 'Complete E-R modeling, mapping cardinalities, weak entity sets, generalization & aggregation',
+  },
+  {
+    id: 'pdf-m3-2',
+    name: 'E-R Model & Schema Reduction Steps',
+    filename: 'e-r model.pptx.pdf',
+    size: '412.4 KB',
+    module: 3,
+    description: 'Step-by-step reduction of E-R diagrams into relational database tables and schemas',
+  },
+  {
+    id: 'pdf-m3-3',
+    name: 'Assignment Questions in ER Models',
+    filename: 'Assignement Questions in ER models.docx.pdf',
+    size: '1.2 MB',
+    module: 3,
+    description: 'Real-world ER design scenarios, banking/hospital problem sets & schema reductions',
+    isQuestionBank: true,
+  },
+  {
+    id: 'pdf-m3-4',
+    name: 'Armstrong Axioms & Functional Dependencies',
+    filename: 'Armstrong Axioms.pptx.pdf',
+    size: '96.3 KB',
+    module: 3,
+    description: 'Sound and complete inference rules for FDs, attribute closure algorithm & proofs',
+  },
+  {
+    id: 'pdf-m3-5',
+    name: 'M3 Normalization and Types (Lecture)',
+    filename: 'M3 Normalization and types.pptx.pdf',
+    size: '348.3 KB',
+    module: 3,
+    description: 'Functional dependencies, 1NF, 2NF, 3NF, BCNF decomposition and anomalies',
+  },
+  {
+    id: 'pdf-m3-6',
+    name: 'Normalization and Types (Detailed Guide)',
+    filename: 'Normalization and types.pptx.pdf',
+    size: '223.9 KB',
+    module: 3,
+    description: 'Partial dependency, transitive dependency, prime attributes & decomposition rules',
+  },
+  {
+    id: 'pdf-m3-7',
+    name: 'Normalization Common Solved Examples',
+    filename: 'Normalization_Common_Example.pptx.pdf',
+    size: '121.5 KB',
+    module: 3,
+    description: 'Step-by-step solved candidate key numericals and 3NF/BCNF test problems',
+    isQuestionBank: true,
+  },
+
+  // Internal Question Banks
+  {
+    id: 'pdf-ia2',
+    name: 'IA 2 Official Question Bank (Karunya)',
+    filename: 'IA 2 Question Bank.docx.pdf',
+    size: '108.6 KB',
+    module: 0,
+    description: 'Official Karunya internal exam question bank with Part A, Part B and Part C questions',
+    isQuestionBank: true,
+  },
+  {
+    id: 'pdf-file-org',
+    name: 'File Organization Reference',
+    filename: 'file organization.ppt.pdf',
+    size: '1.5 MB',
+    module: 4,
+    description: 'Storage structures and record organization concepts',
+  },
+];
+
+const getPdf = (id: string): PdfMaterial => {
+  return ALL_COURSE_PDFS.find((p) => p.id === id) || ALL_COURSE_PDFS[0];
+};
+
 interface InternalExamSprintViewProps {
   onOpenTimer?: (sessionName?: string) => void;
   onOpenSyncCalendar?: () => void;
@@ -57,8 +275,7 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
   onOpenTimer,
   onOpenSyncCalendar,
 }) => {
-  // Local storage key for sprint completed state
-  const STORAGE_KEY = 'karunya_internal_sprint_state_v1';
+  const STORAGE_KEY = 'karunya_internal_sprint_state_v2';
 
   // Target exam date: Thursday, November 5, 2026, 09:00 AM IST
   const examDate = new Date('2026-11-05T09:00:00+05:30');
@@ -95,6 +312,12 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Draw 3-Schema Architecture diagram & memorize data independence definitions',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m1-3'), // 4. Database Architecture
+            getPdf('pdf-m1-4'), // dbms architecture.pdf
+            getPdf('pdf-m1-1'), // 1. Introduction
+            getPdf('pdf-m1-2'), // 2. View of Data
+          ],
         },
         {
           id: 's1-2',
@@ -111,6 +334,11 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Write table schemas identifying Candidate Keys vs Foreign Keys',
           completed: false,
           estMinutes: 120,
+          pdfMaterials: [
+            getPdf('pdf-m1-7'), // 6. Keys.pptx.pdf
+            getPdf('pdf-m1-5'), // 3.1. Relational Database- Tables
+            getPdf('pdf-m1-6'), // 3.4. Database Design
+          ],
         },
         {
           id: 's1-3',
@@ -127,6 +355,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Solve 6 query expressions translating English requirements into σ, π, and ∪',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m1-2'), // 2. View of Data - DB Language
+            getPdf('pdf-m1-5'), // 3.1. Relational Database- Tables
+          ],
         },
         {
           id: 's1-4',
@@ -143,6 +375,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Solve the Division query (Find students enrolled in all CS courses) without looking at solutions',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m2-3'), // Joins and set.pptx.pdf
+            getPdf('pdf-m1-8'), // 5. Distributed DB
+          ],
         },
       ],
     },
@@ -170,6 +406,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Write DDL script creating a Student-Enrollment-Course schema with all constraints',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m2-1'), // Module1_ Introduction_to_SQL
+            getPdf('pdf-m2-4'), // SQL_Mid_Advanced_Concepts
+          ],
         },
         {
           id: 's2-2',
@@ -186,6 +426,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Write 5 GROUP BY / HAVING queries (e.g. departments with average salary > 50,000)',
           completed: false,
           estMinutes: 120,
+          pdfMaterials: [
+            getPdf('pdf-m2-1'), // Module1_ Introduction_to_SQL
+            getPdf('pdf-m2-4'), // SQL_Mid_Advanced_Concepts
+          ],
         },
         {
           id: 's2-3',
@@ -202,6 +446,11 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Solve 6 complex nested queries with correlated subqueries on paper',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m2-2'), // SQL_Joins.pptx.pdf
+            getPdf('pdf-m2-3'), // Joins and set.pptx.pdf
+            getPdf('pdf-m2-4'), // SQL_Mid_Advanced_Concepts
+          ],
         },
         {
           id: 's2-4',
@@ -218,6 +467,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Write the complete PL/SQL trigger code for auditing employee salary modifications',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m2-5'), // Triggers.pptx.pdf
+            getPdf('pdf-m2-6'), // Assiignment Questions in PLSQL
+          ],
         },
       ],
     },
@@ -245,6 +498,11 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Draw an ER diagram for a Hospital / Library system and reduce to tabular schemas',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m3-1'), // 20-21. E-R Diagram
+            getPdf('pdf-m3-2'), // e-r model.pptx.pdf
+            getPdf('pdf-m3-3'), // Assignement Questions in ER models
+          ],
         },
         {
           id: 's3-2',
@@ -261,6 +519,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Draw the complete Online Banking ER Diagram with Customer, Account, Transaction & Loan',
           completed: false,
           estMinutes: 120,
+          pdfMaterials: [
+            getPdf('pdf-m3-1'), // 20-21. E-R Diagram
+            getPdf('pdf-m3-3'), // Assignement Questions in ER models
+          ],
         },
         {
           id: 's3-3',
@@ -277,6 +539,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Calculate attribute closures and find all candidate keys for 3 complex relations',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m3-4'), // Armstrong Axioms
+            getPdf('pdf-m3-5'), // M3 Normalization and types
+          ],
         },
         {
           id: 's3-4',
@@ -294,6 +560,11 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Solve Karunya Part C 14-Mark question: Decompose R(A,B,C,D,E,G) into 3NF and BCNF',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m3-6'), // Normalization and types
+            getPdf('pdf-m3-7'), // Normalization_Common_Example
+            getPdf('pdf-m3-5'), // M3 Normalization and types
+          ],
         },
       ],
     },
@@ -320,6 +591,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Score 100% on Module 1 Part A questions and 1 full Relational Algebra problem',
           completed: false,
           estMinutes: 135,
+          pdfMaterials: [
+            getPdf('pdf-m1-3'), // 4. Database Architecture
+            getPdf('pdf-m1-7'), // 6. Keys
+          ],
         },
         {
           id: 's4-2',
@@ -335,6 +610,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Handwrite the trigger and 5 queries on paper in exam conditions',
           completed: false,
           estMinutes: 135,
+          pdfMaterials: [
+            getPdf('pdf-m2-5'), // Triggers
+            getPdf('pdf-m2-6'), // Assiignment Questions in PLSQL
+          ],
         },
         {
           id: 's4-3',
@@ -351,6 +630,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Master the BCNF decomposition algorithm without making algebraic mistakes',
           completed: false,
           estMinutes: 150,
+          pdfMaterials: [
+            getPdf('pdf-m3-7'), // Normalization_Common_Example
+            getPdf('pdf-m3-3'), // Assignement Questions in ER models
+          ],
         },
         {
           id: 's4-4',
@@ -365,6 +648,9 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Complete the test in 90 minutes and review mistakes',
           completed: false,
           estMinutes: 120,
+          pdfMaterials: [
+            getPdf('pdf-ia2'), // IA 2 Question Bank
+          ],
         },
         {
           id: 's4-5',
@@ -379,6 +665,10 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Wind down early. No late-night cramming so your brain is sharp for Thursday morning.',
           completed: false,
           estMinutes: 90,
+          pdfMaterials: [
+            getPdf('pdf-m3-4'), // Armstrong Axioms
+            getPdf('pdf-m1-7'), // 6. Keys
+          ],
         },
       ],
     },
@@ -406,16 +696,35 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
           keyTask: 'Quick scan of formula card and walk into exam hall on time',
           completed: false,
           estMinutes: 45,
+          pdfMaterials: [
+            getPdf('pdf-m3-4'), // Armstrong Axioms
+            getPdf('pdf-m2-5'), // Triggers
+          ],
         },
       ],
     },
   ];
 
+  // State with safe merge of localStorage
   const [days, setDays] = useState<SprintDay[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('karunya_internal_sprint_state_v1');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed: SprintDay[] = JSON.parse(saved);
+        return initialDays.map((initDay) => {
+          const foundDay = parsed.find((d) => d.dayId === initDay.dayId);
+          if (!foundDay) return initDay;
+          return {
+            ...initDay,
+            sessions: initDay.sessions.map((initSession) => {
+              const foundSession = foundDay.sessions.find((s) => s.id === initSession.id);
+              return {
+                ...initSession,
+                completed: foundSession ? foundSession.completed : false,
+              };
+            }),
+          };
+        });
       } catch (e) {
         return initialDays;
       }
@@ -424,8 +733,15 @@ export const InternalExamSprintView: React.FC<InternalExamSprintViewProps> = ({
   });
 
   const [selectedDayId, setSelectedDayId] = useState<string>('day-1');
-  const [activeAccordion, setActiveAccordion] = useState<'schedule' | 'qbank' | 'cheatsheet'>('schedule');
+  const [activeAccordion, setActiveAccordion] = useState<'schedule' | 'pdfhub' | 'qbank' | 'cheatsheet'>('schedule');
   const [copiedNotification, setCopiedNotification] = useState<boolean>(false);
+
+  // In-app PDF Viewer Modal
+  const [activeViewingPdf, setActiveViewingPdf] = useState<PdfMaterial | null>(null);
+
+  // PDF Hub Filters
+  const [pdfFilterModule, setPdfFilterModule] = useState<number | 'all'>('all');
+  const [pdfSearchQuery, setPdfSearchQuery] = useState<string>('');
 
   // Live countdown timer
   useEffect(() => {
@@ -479,6 +795,15 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
     setTimeout(() => setCopiedNotification(false), 3000);
   };
 
+  const handleOpenPdf = (pdf: PdfMaterial, openMode: 'modal' | 'new-tab' = 'modal') => {
+    const fileUrl = `./pdfs/${encodeURIComponent(pdf.filename)}`;
+    if (openMode === 'new-tab') {
+      window.open(fileUrl, '_blank');
+    } else {
+      setActiveViewingPdf(pdf);
+    }
+  };
+
   // Stats
   const allSessions = days.flatMap((d) => d.sessions);
   const totalSessionsCount = allSessions.length;
@@ -486,6 +811,17 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
   const completionPercentage = Math.round((completedSessionsCount / totalSessionsCount) * 100);
 
   const selectedDay = days.find((d) => d.dayId === selectedDayId) || days[0];
+
+  // Filtered PDFs for Hub
+  const filteredPdfs = ALL_COURSE_PDFS.filter((pdf) => {
+    const matchesModule =
+      pdfFilterModule === 'all' ? true : pdf.module === pdfFilterModule;
+    const matchesSearch =
+      pdf.name.toLowerCase().includes(pdfSearchQuery.toLowerCase()) ||
+      pdf.filename.toLowerCase().includes(pdfSearchQuery.toLowerCase()) ||
+      (pdf.description && pdf.description.toLowerCase().includes(pdfSearchQuery.toLowerCase()));
+    return matchesModule && matchesSearch;
+  });
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -507,16 +843,27 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
               <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
                 Target: Modules 1, 2 & 3
               </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <FileText className="h-3 w-3 text-emerald-400" />
+                <span>23 Course PDFs Linked</span>
+              </span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              4-Day Crash Planner for Thursday Internal Exam
+              4-Day Crash Planner with Direct PDF Materials
             </h1>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Tailored study plan for Karunya University students covering the first 3 modules from Sunday to Wednesday, with high-yield numerical problem sets, trigger templates, and Karunya Question Bank drills.
+              Every learning session below now has its exact lecture slide decks, ER assignments, PL/SQL trigger sheets, and Karunya Question Bank PDFs attached. Click any PDF badge to open and study directly!
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
+              <button
+                onClick={() => setActiveAccordion('pdfhub')}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-slate-950 shadow-md shadow-emerald-600/20 transition cursor-pointer"
+              >
+                <BookOpen className="h-3.5 w-3.5 text-slate-950" />
+                <span>Browse All 23 Course PDFs</span>
+              </button>
               <button
                 onClick={handleCopySchedule}
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition"
@@ -579,34 +926,49 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-3 border-b border-slate-800 pb-3">
+      <div className="flex items-center gap-2 sm:gap-3 border-b border-slate-800 pb-3 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveAccordion('schedule')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
             activeAccordion === 'schedule'
               ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
               : 'text-slate-400 hover:text-white hover:bg-slate-800'
           }`}
         >
           <Calendar className="h-4 w-4" />
-          <span>4-Day Time-Blocked Timetable</span>
+          <span>4-Day Timetable & Attached PDFs</span>
+        </button>
+
+        <button
+          onClick={() => setActiveAccordion('pdfhub')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
+            activeAccordion === 'pdfhub'
+              ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+              : 'text-emerald-400 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <FileText className="h-4 w-4" />
+          <span>Course PDFs & Slides Hub</span>
+          <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-200 border border-emerald-500/40 font-mono">
+            23 Files
+          </span>
         </button>
 
         <button
           onClick={() => setActiveAccordion('qbank')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
             activeAccordion === 'qbank'
               ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
               : 'text-slate-400 hover:text-white hover:bg-slate-800'
           }`}
         >
           <Award className="h-4 w-4" />
-          <span>High-Yield Karunya Internal Questions</span>
+          <span>Karunya Exam Questions</span>
         </button>
 
         <button
           onClick={() => setActiveAccordion('cheatsheet')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap cursor-pointer ${
             activeAccordion === 'cheatsheet'
               ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
               : 'text-slate-400 hover:text-white hover:bg-slate-800'
@@ -617,7 +979,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
         </button>
       </div>
 
-      {/* TAB 1: 4-DAY TIMETABLE VIEW */}
+      {/* TAB 1: 4-DAY TIMETABLE VIEW WITH ATTACHED PDFS */}
       {activeAccordion === 'schedule' && (
         <div className="space-y-6">
           {/* Day Selector Buttons */}
@@ -667,7 +1029,7 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
                   {selectedDay.focusTitle}
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">
-                  Target: {selectedDay.targetHours} Hours • {selectedDay.sessions.length} Focus Blocks
+                  Target: {selectedDay.targetHours} Hours • {selectedDay.sessions.length} Focus Blocks with assigned lecture PDFs
                 </p>
               </div>
 
@@ -687,62 +1049,113 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
               {selectedDay.sessions.map((session) => (
                 <div
                   key={session.id}
-                  className={`p-4 rounded-xl border transition-all ${
+                  className={`p-4 rounded-xl border transition-all flex flex-col justify-between ${
                     session.completed
                       ? 'bg-emerald-950/20 border-emerald-500/40 opacity-80'
                       : 'bg-slate-950/70 border-slate-800 hover:border-slate-700'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <button
-                      onClick={() => handleToggleSession(session.id)}
-                      className="mt-0.5 shrink-0 text-slate-400 hover:text-amber-400 cursor-pointer"
-                    >
-                      {session.completed ? (
-                        <CheckCircle2 className="h-5 w-5 text-emerald-400 fill-emerald-500/20" />
-                      ) : (
-                        <Circle className="h-5 w-5 text-slate-500 hover:text-amber-400" />
-                      )}
-                    </button>
-
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center justify-between gap-2">
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleToggleSession(session.id)}
+                          className="text-slate-400 hover:text-amber-400 cursor-pointer"
+                        >
+                          {session.completed ? (
+                            <CheckCircle2 className="h-5 w-5 text-emerald-400 fill-emerald-500/20" />
+                          ) : (
+                            <Circle className="h-5 w-5 text-slate-500 hover:text-amber-400" />
+                          )}
+                        </button>
                         <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700">
                           {session.timeSlot}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">
-                          {session.estMinutes} mins
-                        </span>
                       </div>
+                      <span className="text-[10px] text-slate-400 font-mono">
+                        {session.estMinutes} mins
+                      </span>
+                    </div>
 
+                    {/* Learning Title */}
+                    <div>
                       <h3
-                        className={`text-sm font-bold ${
+                        className={`text-base font-bold ${
                           session.completed ? 'line-through text-slate-400' : 'text-white'
                         }`}
                       >
                         {session.title}
                       </h3>
-
-                      <ul className="space-y-1 text-xs text-slate-300">
-                        {session.topics.map((t, idx) => (
-                          <li key={idx} className="flex items-start gap-1.5">
-                            <span className="text-amber-400 mt-0.5">•</span>
-                            <span>{t}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                        <span className="text-amber-300 font-medium">🎯 Goal: {session.keyTask}</span>
-                        <button
-                          onClick={() => onOpenTimer && onOpenTimer(session.title)}
-                          className="text-slate-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer font-semibold"
-                        >
-                          <Timer className="h-3 w-3" />
-                          <span>Timer</span>
-                        </button>
-                      </div>
                     </div>
+
+                    {/* PDF Materials Assigned to this Title */}
+                    {session.pdfMaterials && session.pdfMaterials.length > 0 && (
+                      <div className="bg-slate-900/90 p-2.5 rounded-xl border border-indigo-500/30 space-y-1.5">
+                        <div className="flex items-center justify-between text-[11px] text-indigo-300 font-semibold">
+                          <span className="flex items-center gap-1.5">
+                            <FileText className="h-3.5 w-3.5 text-indigo-400" />
+                            <span>Attached Study PDFs (Click to Open):</span>
+                          </span>
+                          <span className="text-[10px] text-indigo-400/80 font-mono">
+                            {session.pdfMaterials.length} file{session.pdfMaterials.length > 1 ? 's' : ''}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col gap-1.5 pt-1">
+                          {session.pdfMaterials.map((pdf) => (
+                            <div
+                              key={pdf.id}
+                              className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-slate-950/80 hover:bg-indigo-950/50 border border-slate-800 hover:border-indigo-500/50 transition group"
+                            >
+                              <button
+                                onClick={() => handleOpenPdf(pdf, 'modal')}
+                                title="Click to view inside app"
+                                className="flex items-center gap-2 text-left truncate flex-1 cursor-pointer"
+                              >
+                                <FileText className="h-3.5 w-3.5 text-amber-400 shrink-0 group-hover:scale-110 transition-transform" />
+                                <span className="text-xs text-slate-200 group-hover:text-amber-200 font-medium truncate">
+                                  {pdf.name}
+                                </span>
+                              </button>
+
+                              <div className="flex items-center gap-1 shrink-0">
+                                <span className="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-slate-800">
+                                  {pdf.size}
+                                </span>
+                                <button
+                                  onClick={() => handleOpenPdf(pdf, 'new-tab')}
+                                  title="Open in new browser tab"
+                                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                                >
+                                  <ExternalLink className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Topics List */}
+                    <ul className="space-y-1 text-xs text-slate-300 pt-1">
+                      {session.topics.map((t, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5">
+                          <span className="text-amber-400 mt-0.5">•</span>
+                          <span>{t}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                    <span className="text-amber-300 font-medium">🎯 Goal: {session.keyTask}</span>
+                    <button
+                      onClick={() => onOpenTimer && onOpenTimer(session.title)}
+                      className="text-slate-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer font-semibold"
+                    >
+                      <Timer className="h-3 w-3" />
+                      <span>Timer</span>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -751,7 +1164,138 @@ Day 5 (Thu, Nov 5): INTERNAL EXAM DAY!`;
         </div>
       )}
 
-      {/* TAB 2: HIGH-YIELD KARUNYA INTERNAL QUESTIONS */}
+      {/* TAB 2: ALL COURSE PDFS & SLIDES HUB */}
+      {activeAccordion === 'pdfhub' && (
+        <div className="space-y-6">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+              <div>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-emerald-400" />
+                  <span>Karunya DBMS Lecture PDFs & Study Materials (23 Files)</span>
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Downloaded from your course folder and bundled directly with the app. Open any slide deck or question bank in a single click.
+                </p>
+              </div>
+
+              {/* Module Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  onClick={() => setPdfFilterModule('all')}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 'all'
+                      ? 'bg-emerald-500 text-slate-950 font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  All ({ALL_COURSE_PDFS.length})
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(1)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 1
+                      ? 'bg-blue-500 text-white font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 1 (8)
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(2)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 2
+                      ? 'bg-violet-500 text-white font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 2 (6)
+                </button>
+                <button
+                  onClick={() => setPdfFilterModule(3)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    pdfFilterModule === 3
+                      ? 'bg-amber-500 text-slate-950 font-bold'
+                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  Module 3 (7)
+                </button>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search PDF slides (e.g. Architecture, Keys, Normalization, Triggers, E-R Diagram)..."
+                value={pdfSearchQuery}
+                onChange={(e) => setPdfSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+              />
+            </div>
+
+            {/* Grid of PDF Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              {filteredPdfs.map((pdf) => (
+                <div
+                  key={pdf.id}
+                  className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between group space-y-3"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+                          pdf.module === 1
+                            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                            : pdf.module === 2
+                            ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
+                            : pdf.module === 3
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                            : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                        }`}
+                      >
+                        {pdf.module === 0 ? 'Question Bank' : `Module ${pdf.module}`}
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-400">{pdf.size}</span>
+                    </div>
+
+                    <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition line-clamp-2">
+                      {pdf.name}
+                    </h4>
+
+                    {pdf.description && (
+                      <p className="text-xs text-slate-400 line-clamp-2">
+                        {pdf.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-800/80 flex items-center gap-2">
+                    <button
+                      onClick={() => handleOpenPdf(pdf, 'modal')}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition cursor-pointer"
+                    >
+                      <FileText className="h-3.5 w-3.5" />
+                      <span>Preview in App</span>
+                    </button>
+                    <button
+                      onClick={() => handleOpenPdf(pdf, 'new-tab')}
+                      title="Open in new window"
+                      className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition cursor-pointer"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: HIGH-YIELD KARUNYA INTERNAL QUESTIONS */}
       {activeAccordion === 'qbank' && (
         <div className="space-y-6">
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
@@ -971,7 +1515,7 @@ END;
         </div>
       )}
 
-      {/* TAB 3: CHEATSHEET & FORMULA CARD */}
+      {/* TAB 4: CHEATSHEET & FORMULA CARD */}
       {activeAccordion === 'cheatsheet' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1048,6 +1592,66 @@ END;
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* IN-APP PDF VIEWER MODAL */}
+      {activeViewingPdf && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-5xl h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between gap-3 bg-slate-950/80">
+              <div className="flex items-center gap-2.5 truncate">
+                <FileText className="h-5 w-5 text-amber-400 shrink-0" />
+                <div className="truncate">
+                  <h3 className="text-sm sm:text-base font-bold text-white truncate">
+                    {activeViewingPdf.name}
+                  </h3>
+                  <p className="text-[11px] text-slate-400 truncate">
+                    {activeViewingPdf.filename} • {activeViewingPdf.size}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() => handleOpenPdf(activeViewingPdf, 'new-tab')}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition"
+                  title="Open in new full tab"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Open in Tab</span>
+                </button>
+
+                <a
+                  href={`./pdfs/${encodeURIComponent(activeViewingPdf.filename)}`}
+                  download={activeViewingPdf.filename}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-slate-950 transition"
+                  title="Download PDF"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Download</span>
+                </a>
+
+                <button
+                  onClick={() => setActiveViewingPdf(null)}
+                  className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 transition cursor-pointer"
+                  title="Close viewer"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body: Embedded PDF iframe */}
+            <div className="flex-1 w-full bg-slate-950 relative">
+              <iframe
+                src={`./pdfs/${encodeURIComponent(activeViewingPdf.filename)}#toolbar=1&navpanes=1`}
+                title={activeViewingPdf.name}
+                className="w-full h-full border-0"
+              />
             </div>
           </div>
         </div>
